@@ -1,0 +1,22 @@
+{
+  "name": "devtools-css-context",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "build": "cpx devtools.html dist/ && parcel build manifest.json",
+    "clean": "rimraf dist",
+    "start": "cpx devtools.html dist/ && parcel watch --no-hmr manifest.json"
+  },
+  "keywords": [],
+  "author": "myomi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "0.0.92",
+    "@types/node": "^13.5.0",
+    "cpx": "^1.5.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-web-extension": "^1.6.1",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.5"
+  }
+}

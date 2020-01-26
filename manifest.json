@@ -1,0 +1,19 @@
+{
+  "name": "CSS Context",
+  "version": "0.1",
+  "description": "Extends the Developer Tools, adding a sidebar that displaysthe CSS context informations associated with the selected DOM element.",
+  "author": "myomi",
+  "manifest_version": 2,
+  "devtools_page": "devtools.html",
+  "icons": {
+    "16": "./images/CSSContext_logo16.png",
+    "48": "./images/CSSContext_logo48.png",
+    "128": "./images/CSSContext_logo128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["devtools.ts"]
+    }
+  ]
+}
