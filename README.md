@@ -1,4 +1,8 @@
 # ![Logo](./images/CSSContext_logo16.png) Chrome dev tool - CSS Context 
+
+
+[Chrome web store](https://chrome.google.com/webstore/detail/css-context/mnjgkjmfcoelaigcjmmmhbgfonkpgion)
+
 This extension display the following informations on the Element's **CSS Context** pane:
 - css property **display, position, float, clear** and **z-index**
 - containing block of current element
