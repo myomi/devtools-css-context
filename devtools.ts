@@ -1,5 +1,3 @@
-import { createSecureContext } from "tls";
-
 const PANE_NAME = "CSS Contexts";
 
 function cssContext() {
