@@ -1,4 +1,4 @@
-# ![Logo](./images/CSSContext_logo16.png) Chrome dev tool - CSS Context 
+# ![Logo](./images/CSSContext_logo48.png) Chrome dev tool - CSS Context 
 
 
 [Chrome web store](https://chrome.google.com/webstore/detail/css-context/mnjgkjmfcoelaigcjmmmhbgfonkpgion)
