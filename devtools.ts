@@ -1,6 +1,6 @@
 const PANE_NAME = "CSS Contexts";
 
-function cssContext() {
+function cssContext(current: HTMLElement) {
   /**
    * Get Stacking Context
    * @param element stacking context
@@ -217,7 +217,6 @@ function cssContext() {
   //   }
   // }
 
-  const current = (this as any).$0 as HTMLElement | null;
   const computedStyle = window.getComputedStyle(current);
   const closeStackContext = current ? getStackContext(current) : null;
   const stackContext =
@@ -243,7 +242,7 @@ function cssContext() {
 
 chrome.devtools.panels.elements.createSidebarPane(PANE_NAME, sidebar => {
   function update() {
-    sidebar.setExpression("(" + cssContext.toString() + ")()");
+    sidebar.setExpression("(" + cssContext.toString() + ")($0)", "hogehoge");
   }
   update();
   chrome.devtools.panels.elements.onSelectionChanged.addListener(update);
