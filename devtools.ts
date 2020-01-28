@@ -242,7 +242,7 @@ function cssContext(current: HTMLElement) {
 
 chrome.devtools.panels.elements.createSidebarPane(PANE_NAME, sidebar => {
   function update() {
-    sidebar.setExpression("(" + cssContext.toString() + ")($0)", "hogehoge");
+    sidebar.setExpression("(" + cssContext.toString() + ")($0)");
   }
   update();
   chrome.devtools.panels.elements.onSelectionChanged.addListener(update);
