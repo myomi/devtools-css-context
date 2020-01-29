@@ -127,15 +127,59 @@ function cssContext() {
       // block container or element creating formatting context
       return getNearestBlockContainerOrFormattingContextOwner(element);
     } else if (computedStyle.position === "absolute") {
+      const transformContainingBlock = getNearestContainingBlockByTransform(
+        element
+      );
       // nearest ancestor element that has a position value other than static
-      return getNearestAbsolutelyPositioned(element);
+      return transformContainingBlock
+        ? transformContainingBlock
+        : getNearestAbsolutelyPositioned(element);
     } else if (computedStyle.position === "fixed") {
+      const transformContainingBlock = getNearestContainingBlockByTransform(
+        element
+      );
       // viewport
-      return document.documentElement;
+      return transformContainingBlock
+        ? transformContainingBlock
+        : document.documentElement;
     } else {
       // unknown
       return null;
     }
+  }
+
+  function getNearestContainingBlockByTransform(
+    element: HTMLElement
+  ): HTMLElement | null {
+    const parent = element.parentElement;
+    if (parent.nodeName === "HTML") {
+      return null;
+    }
+    const computedStyle = window.getComputedStyle(parent);
+
+    if (
+      computedStyle.transform !== "none" ||
+      computedStyle.perspective !== "none"
+    ) {
+      return parent;
+    }
+    
+    if (
+      computedStyle.willChange === "transform" ||
+      computedStyle.willChange === "perspective"
+    ) {
+      return parent;
+    }
+
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    if (
+      userAgent === "firefox" &&
+      (computedStyle.filter !== "none" || computedStyle.willChange === "filter")
+    ) {
+      // only Firefox
+      return parent;
+    }
+    return getNearestContainingBlockByTransform(parent);
   }
 
   function getNearestBlockContainerOrFormattingContextOwner(
