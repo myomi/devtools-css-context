@@ -196,7 +196,9 @@ function cssContext() {
     if (
       computedStyle.display.includes("block") ||
       computedStyle.display === "list-item" ||
-      computedStyle.display === "flow-root"
+      computedStyle.display === "flow-root" ||
+      computedStyle.display === "table-caption" ||
+      computedStyle.display === "table-cell"
     ) {
       // create new block container
       return parent;
