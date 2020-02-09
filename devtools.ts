@@ -127,15 +127,59 @@ function cssContext(current: HTMLElement) {
       // block container or element creating formatting context
       return getNearestBlockContainerOrFormattingContextOwner(element);
     } else if (computedStyle.position === "absolute") {
+      const transformContainingBlock = getNearestContainingBlockByTransform(
+        element
+      );
       // nearest ancestor element that has a position value other than static
-      return getNearestAbsolutelyPositioned(element);
+      return transformContainingBlock
+        ? transformContainingBlock
+        : getNearestAbsolutelyPositioned(element);
     } else if (computedStyle.position === "fixed") {
+      const transformContainingBlock = getNearestContainingBlockByTransform(
+        element
+      );
       // viewport
-      return document.documentElement;
+      return transformContainingBlock
+        ? transformContainingBlock
+        : document.documentElement;
     } else {
       // unknown
       return null;
     }
+  }
+
+  function getNearestContainingBlockByTransform(
+    element: HTMLElement
+  ): HTMLElement | null {
+    const parent = element.parentElement;
+    if (parent.nodeName === "HTML") {
+      return null;
+    }
+    const computedStyle = window.getComputedStyle(parent);
+
+    if (
+      computedStyle.transform !== "none" ||
+      computedStyle.perspective !== "none"
+    ) {
+      return parent;
+    }
+
+    if (
+      computedStyle.willChange === "transform" ||
+      computedStyle.willChange === "perspective"
+    ) {
+      return parent;
+    }
+
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    if (
+      userAgent === "firefox" &&
+      (computedStyle.filter !== "none" || computedStyle.willChange === "filter")
+    ) {
+      // only Firefox
+      return parent;
+    }
+    return getNearestContainingBlockByTransform(parent);
   }
 
   function getNearestBlockContainerOrFormattingContextOwner(
@@ -147,12 +191,19 @@ function cssContext(current: HTMLElement) {
       return parent;
     }
 
-    const computedStyle = getComputedStyle(parent);
+    const computedStyle = getComputedStyle(parent) as CSSStyleDeclaration & {
+      contain: string | null;
+      columnCount: string | null;
+      columnWidth: string | null;
+      columnSpan: string | null;
+    };
 
     if (
       computedStyle.display.includes("block") ||
       computedStyle.display === "list-item" ||
-      computedStyle.display === "flow-root"
+      computedStyle.display === "flow-root" ||
+      computedStyle.display === "table-caption" ||
+      computedStyle.display === "table-cell"
     ) {
       // create new block container
       return parent;
@@ -168,10 +219,44 @@ function cssContext(current: HTMLElement) {
       return parent;
     }
 
-    if (computedStyle.display === "inline") {
-      // FIXME
+    if (computedStyle.float !== "none") {
+      // create new formatting context
+      return parent;
+    }
+    if (
+      computedStyle.position === "absolute" ||
+      computedStyle.position === "fixed"
+    ) {
+      // create new formatting context
+      return parent;
     }
 
+    if (
+      computedStyle.display.includes("block") &&
+      computedStyle.overflow !== "visible"
+    ) {
+      // FIXME Block elements where overflow has a value other than visible.
+      return parent;
+    }
+
+    if (
+      computedStyle.contain === "layout" ||
+      computedStyle.contain === "content" ||
+      computedStyle.contain === "paint"
+    ) {
+      // create new formatting context
+      return parent;
+    }
+
+    if (computedStyle.columnWidth && computedStyle.columnWidth !== "auto") {
+      return parent;
+    }
+    if (computedStyle.columnCount && computedStyle.columnCount !== "auto") {
+      return parent;
+    }
+    if (computedStyle.columnSpan && computedStyle.columnSpan === "all") {
+      return parent;
+    }
     return getNearestBlockContainerOrFormattingContextOwner(parent);
   }
 
