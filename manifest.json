@@ -1,6 +1,6 @@
 {
   "name": "CSS Context",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Extends the Developer Tools, adding a sidebar that displays the CSS context informations associated with the selected DOM element.",
   "author": "myomi",
   "manifest_version": 2,
