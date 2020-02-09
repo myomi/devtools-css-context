@@ -10,6 +10,7 @@
     "48": "./images/CSSContext_logo48.png",
     "128": "./images/CSSContext_logo128.png"
   },
+  "permissions": ["activeTab"],
   "content_scripts": [
     {
       "matches": ["*://*/*"],
