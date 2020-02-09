@@ -1,4 +1,5 @@
 .cache
 dist
+dist.zip
 .history
 node_modules

@@ -21,7 +21,6 @@ Start application.
 ```sh
 npm start
 ```
-
 Open Google Chrome and display **chrome://extensions/**. Then, click **Load unpacked** button and load **dist** directory.
 
 ![Load unpacked button](./docs/capture02.png)
@@ -32,3 +31,4 @@ So, you can use this extension.
 ```sh
 npm run all
 ```
+So, **dist.zip** will be created for deploy.
