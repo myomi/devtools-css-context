@@ -24,7 +24,7 @@ npm start
 
 Open Google Chrome and display **chrome://extensions/**. Then, click **Load unpacked** button and load **dist** directory.
 
-![Load unpacked button](./docs/Capture02.png)
+![Load unpacked button](./docs/capture02.png)
 
 So, you can use this extension.
 
