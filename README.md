@@ -27,6 +27,14 @@ Open Google Chrome and display **chrome://extensions/**. Then, click **Load unpa
 
 So, you can use this extension.
 
+## Test
+Start applicaton and serve tests directory's html files.
+```sh
+npm test
+```
+So, open browser and display test directory.
+If you install this extension(dist directory), you can test this extension's behavior.
+
 ## Production build
 ```sh
 npm run all
