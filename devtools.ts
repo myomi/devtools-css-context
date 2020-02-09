@@ -163,7 +163,7 @@ function cssContext() {
     ) {
       return parent;
     }
-    
+
     if (
       computedStyle.willChange === "transform" ||
       computedStyle.willChange === "perspective"
@@ -191,7 +191,12 @@ function cssContext() {
       return parent;
     }
 
-    const computedStyle = getComputedStyle(parent);
+    const computedStyle = getComputedStyle(parent) as CSSStyleDeclaration & {
+      contain: string | null;
+      columnCount: string | null;
+      columnWidth: string | null;
+      columnSpan: string | null;
+    };
 
     if (
       computedStyle.display.includes("block") ||
@@ -214,10 +219,44 @@ function cssContext() {
       return parent;
     }
 
-    if (computedStyle.display === "inline") {
-      // FIXME
+    if (computedStyle.float !== "none") {
+      // create new formatting context
+      return parent;
+    }
+    if (
+      computedStyle.position === "absolute" ||
+      computedStyle.position === "fixed"
+    ) {
+      // create new formatting context
+      return parent;
     }
 
+    if (
+      computedStyle.display.includes("block") &&
+      computedStyle.overflow !== "visible"
+    ) {
+      // FIXME Block elements where overflow has a value other than visible.
+      return parent;
+    }
+
+    if (
+      computedStyle.contain === "layout" ||
+      computedStyle.contain === "content" ||
+      computedStyle.contain === "paint"
+    ) {
+      // create new formatting context
+      return parent;
+    }
+
+    if (computedStyle.columnWidth && computedStyle.columnWidth !== "auto") {
+      return parent;
+    }
+    if (computedStyle.columnCount && computedStyle.columnCount !== "auto") {
+      return parent;
+    }
+    if (computedStyle.columnSpan && computedStyle.columnSpan === "all") {
+      return parent;
+    }
     return getNearestBlockContainerOrFormattingContextOwner(parent);
   }
 
