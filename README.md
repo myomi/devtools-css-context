@@ -17,11 +17,18 @@ npm install
 ```
 
 ## Start
+Start application.
 ```sh
 npm start
 ```
 
-## Build
+Open Google Chrome and display **chrome://extensions/**. Then, click **Load unpacked** button and load **dist** directory.
+
+![Load unpacked button](./docs/Capture02.png)
+
+So, you can use this extension.
+
+## Production build
 ```sh
-npm run build
+npm run all
 ```
